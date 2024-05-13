@@ -14,15 +14,16 @@ creation of Karbon work items can be done via API requests using Zapier's built-
 
 ## Requirements
 
-- A Karbon account with access to API credentials.
-- A Zapier account to set up the automation.
-- Basic understanding of JavaScript and how to insert scripts in Zapier.
+- Basic understanding of JavaScript (reccomended not required) 
+- Knowledge of how to insert scripts in Zapier.
+- A Karbon account with API credentials.
+
 
 ## Configuration
 
 Before using this script in Zapier, you need to configure it with your Karbon API credentials:
 
-1. **Auth Token and Access Key**: Replace `<your auth here>` and `<your key here>` in the script with your actual Karbon `Bearer` auth token and access key.
+**Auth Token and Access Key**: Replace `<your auth here>` and `<your key here>` in the script with your actual Karbon `Bearer` auth token and access key.
 
 ```javascript
 const AUTH = 'Bearer <your auth here>';
@@ -38,6 +39,8 @@ Ensure you understand the security implications of embedding credentials directl
 3. **Input Data**: Configure the input data fields to match the trigger's output, specifically for `contactEmail`, `contactFirstName`, and `contactLastName`.
 4. **Paste the Script**: Copy the provided JavaScript code into the "Code" section of the Zapier action, with your Auth and Key.
 5. **Test and Continue**: Follow Zapier's prompts to test the script and ensure it's working as expected.
+
+![example zaper setup](./docs/image.png)
 
 ## Security Note
 
