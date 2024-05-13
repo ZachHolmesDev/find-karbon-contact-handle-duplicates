@@ -17,7 +17,7 @@ const output = {} // Initialize output
 //   contactLastName: 'Smith'
 // }
 
-// declaring variables for contact information here for easier access in global scope
+// declare variables for contact information here for easier access in global scope
 let contactEmail 
 let contactFirstName
 let contactLastName
@@ -25,9 +25,13 @@ let contactLastName
 // Trim contact information from inputData
 // Check if required input data is provided
 try {
-  contactEmail = inputData.contactEmail
-  contactFirstName = inputData.contactFirstName.trim()
-  contactLastName = inputData.contactLastName.trim()
+  contactEmail = inputData.contactEmail.trim().toLowerCase()
+  contactFirstName = inputData.contactFirstName.trim().toLowerCase()
+  contactLastName = inputData.contactLastName.trim().toLowerCase()
+  console.log("looking for \n")
+  console.log(contactEmail)
+  console.log(contactFirstName)
+  console.log(contactLastName)
 } catch (error) {
   if (error instanceof TypeError) {
     return 'Error: Missing required input data for contact information. Please provide contact email, first name, and last name.', error
@@ -64,23 +68,24 @@ const fetchData = async () => {
 // Call fetchData() and findContactByName() functions .then return the result
 // done in this manner due to the way the script runs in zapiers enviroment
 return fetchData()
-// //  Uncomment if you wish to test in local enviroment 
-//   .then(response => {
-//       console.log("Full Response:", response);
-//       return response;  // Pass the response to the next .then()
-//   })
+  // DEBUG
+  .then(response => {
+      console.log("\nFull Response:", response);
+      return response;  // Pass the response to the next .then()
+  })
   .then(response => {
     // Call function with response object and contact names 
     const contact = findContactByName(response, contactFirstName, contactLastName)
     if (contact) {
-      // console.log({ found: true, contactFound: contact })
+      console.log({ found: true, contactFound: contact })
       return {
         found: true,
         message: 'Contact is found',
         contactFound: contact
       }
     } else {
-      // console.log({ found: false, message: "Contact not found" })
+      // console.log()
+      console.log( { found: false, message: "Contact not found" })
       return {
         found: false,
         message: 'Contact not found',
@@ -91,9 +96,8 @@ return fetchData()
 
 
 /**
- * Helper fuction
  * takes the fetchData() response and contact names as arguments
- * and returns the contact object using the .find method if found else undefined.
+ * and returns the contact object if found else undefined.
  * @param {Object} response    - Response object containing contacts.
  * @param {string} firstName   - contact's first name.
  * @param {string} lastName    - contact's last name.
@@ -104,9 +108,13 @@ function findContactByName(response, firstName, lastName) {
   return response.value.find(contact => {
     // defining parameters for the .find() function
     // Split FullName into parts
-    const [responseLastName, responseFirstAndMiddleName] = contact.FullName.split(', ')
+    let [responseLastName, responseFirstAndMiddleName] = contact.FullName.split(', ')
+    
+    responseLastName = responseLastName.toLowerCase().trim()
+    responseFirstAndMiddleName = responseFirstAndMiddleName.toLowerCase().trim()
+    
     // Compare both names
-    return responseLastName.trim() === lastName && responseFirstAndMiddleName.startsWith(firstName)
+    return responseLastName === lastName && responseFirstAndMiddleName.startsWith(firstName)
     }
   )
 }
